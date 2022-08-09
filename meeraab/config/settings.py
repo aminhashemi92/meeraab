@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+LOGIN_URL = "register_login:register_login"
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,6 +38,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'django.contrib.humanize',
+
+    'home.apps.HomeConfig',
+    'blog.apps.BlogConfig',
+    'register_login.apps.RegisterLoginConfig',
+    'dashboard.apps.DashboardConfig',
+    'well.apps.WellConfig',
+    'transaction.apps.TransactionConfig',
+    'trading.apps.TradingConfig',
+    'license.apps.LicenseConfig',
+
+    'comment',
+    'star_ratings',
+    'crispy_forms',
+    'django_summernote',
 ]
 
 MIDDLEWARE = [
@@ -47,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'blog.middleware.SaveIPAddressMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -54,7 +72,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -103,12 +121,18 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGES =[
+    ('fa', 'Persian'),
+    ('en', 'English')
+]
 
-TIME_ZONE = 'UTC'
+LANGUAGE_CODE = 'fa-ir'
+
+TIME_ZONE = 'Asia/Tehran'
+
 
 USE_I18N = True
-
+USE_L10N = True
 USE_TZ = True
 
 
@@ -117,7 +141,26 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+#درحالت تست فعال بشه
+# STATIC_ROOT = BASE_DIR /'static'
+
+
+STATICFILES_DIRS=[
+    os.path.join(BASE_DIR,'static')
+]
+
+
+MEDIA_URL = 'media/'
+# درحالت تست فعال
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STAR_RATINGS_STAR_HEIGHT = 16
+
+# for classified form
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

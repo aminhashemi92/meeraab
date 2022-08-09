@@ -1,0 +1,227 @@
+{% extends 'dashboard/base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{%block title%}|مجوزها
+{% endblock %}
+
+{% block sidebar %}
+{% include 'dashboard/sidebar.html' %}
+{% endblock %}
+
+{% block header %}
+مجوز‌ها
+{% endblock %}
+
+{% block content %}
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- AREA CHART -->
+        <div class="card card-info">
+          <div class="card-header align-items-center">
+            <div class="card-tools" style="float:left;">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+            </div>
+            <h3 class="card-title mb-0" style="float:right;">مجوزها</h3>
+          </div>
+          <div class="card-body">
+
+
+            <div class="" id="counterChart">
+              <div class="chart">
+                <div class="card">
+
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    <table id="example1" class="table table-bordered table-striped text-center" style="font-size:13px;">
+                      <thead>
+                        <tr>
+                          <th>کد چاه</th>
+                          <th>مالک چاه</th>
+                          <th>وضعیت شارژ و اعتبار</th>
+                          <th>وضعیت فنی</th>
+                          <th>اصلاح نام</th>
+                          <th>تعهد‌نامه نمایندگی فروش</th>
+                          <th>بررسی نهایی و صدور فرم</th>
+                          <th>ویرایش اطلاعات</th>
+
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for well in wells %}
+                        <tr>
+                          <td>{{well.license}}</td>
+                          <td>{{well.owner.profile.firstname}} {{well.owner.profile.lastname}}</td>
+
+
+                          {% if well.ChargeAndCredit.status == 'c' %}
+                          <td>
+                            <span class="not-visible">True</span>
+                            <img src='/static/admin/img/icon-yes.svg' alt='True' width="25">
+                          </td>
+                          {% elif well.ChargeAndCredit.status == 'd' %}
+                          <td>
+                            <span class="not-visible">True</span>
+                            <img src='/static/admin/img/icon-no.svg' alt='False' width="25">
+                          </td>
+                          <!-- <td ><i class="icon fas fa-check alert alert-success"></i></td> -->
+                          {% else %}
+                          <td>
+                            <span class="not-visible">False</span>
+                            <img src='/static/admin/img/icon-unknown.svg' alt='True' width="25">
+                          </td>
+                          <!-- <td ><i class="icon fas fa-exclamation-triangle alert alert-danger"></i></td> -->
+                          {% endif %}
+
+
+                          {% if well.TechnicalCondition.status == 'c' %}
+                          <td>
+                            <span class="not-visible">True</span>
+                            <img src='/static/admin/img/icon-yes.svg' alt='True' width="25">
+                          </td>
+                          {% elif well.TechnicalCondition.status == 'd' %}
+                          <td>
+                            <span class="not-visible">True</span>
+                            <img src='/static/admin/img/icon-no.svg' alt='False' width="25">
+                          </td>
+                          <!-- <td ><i class="icon fas fa-check alert alert-success"></i></td> -->
+                          {% else %}
+                          <td>
+                            <span class="not-visible">False</span>
+                            <img src='/static/admin/img/icon-unknown.svg' alt='True' width="25">
+                          </td>
+                          <!-- <td ><i class="icon fas fa-exclamation-triangle alert alert-danger"></i></td> -->
+                          {% endif %}
+
+
+                          {% if well.ModifyName.status == 'c' %}
+                          <td>
+                            <span class="not-visible">True</span>
+                            <img src='/static/admin/img/icon-yes.svg' alt='True' width="25">
+                          </td>
+                          {% elif well.ModifyName.status == 'd' %}
+                          <td>
+                            <span class="not-visible">True</span>
+                            <img src='/static/admin/img/icon-no.svg' alt='False' width="25">
+                          </td>
+                          <!-- <td ><i class="icon fas fa-check alert alert-success"></i></td> -->
+                          {% else %}
+                          <td>
+                            <span class="not-visible">False</span>
+                            <img src='/static/admin/img/icon-unknown.svg' alt='True' width="25">
+                          </td>
+                          <!-- <td ><i class="icon fas fa-exclamation-triangle alert alert-danger"></i></td> -->
+                          {% endif %}
+
+
+                          {% if well.Commitment.status == 'c' %}
+                          <td>
+                            <span class="not-visible">True</span>
+                            <img src='/static/admin/img/icon-yes.svg' alt='True' width="25">
+                          </td>
+                          {% elif well.Commitment.status == 'd' %}
+                          <td>
+                            <span class="not-visible">True</span>
+                            <img src='/static/admin/img/icon-no.svg' alt='False' width="25">
+                          </td>
+                          <!-- <td ><i class="icon fas fa-check alert alert-success"></i></td> -->
+                          {% else %}
+                          <td>
+                            <span class="not-visible">False</span>
+                            <img src='/static/admin/img/icon-unknown.svg' alt='True' width="25">
+                          </td>
+                          <!-- <td ><i class="icon fas fa-exclamation-triangle alert alert-danger"></i></td> -->
+                          {% endif %}
+
+                          {% if well.Issuance.status == 'c' %}
+                          <td>
+                            <span class="not-visible">True</span>
+                            <img src='/static/admin/img/icon-yes.svg' alt='True' width="25">
+                          </td>
+                          {% elif well.Issuance.status == 'd' %}
+                          <td>
+                            <span class="not-visible">True</span>
+                            <img src='/static/admin/img/icon-no.svg' alt='False' width="25">
+                          </td>
+                          <!-- <td ><i class="icon fas fa-check alert alert-success"></i></td> -->
+                          {% else %}
+                          <td>
+                            <span class="not-visible">False</span>
+                            <img src='/static/admin/img/icon-unknown.svg' alt='True' width="25">
+                          </td>
+                          <!-- <td ><i class="icon fas fa-exclamation-triangle alert alert-danger"></i></td> -->
+                          {% endif %}
+
+                          <td>
+                            <a class="btn btn-info btn-sm" href="{% url 'dashboard:licensing' well.slug %}" style="background-color:#5274ad; border-color:#5274ad;">
+                              <i class="fas fa-pencil-alt">
+                              </i>
+                              ویرایش
+                            </a>
+                          </td>
+
+                        </tr>
+                        {% endfor %}
+
+
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th>کد چاه</th>
+                          <th>مالک چاه</th>
+                          <th>وضعیت شارژ و اعتبار</th>
+                          <th>وضعیت فنی</th>
+                          <th>اصلاح نام</th>
+                          <th>تعهد‌نامه نمایندگی فروش</th>
+                          <th>بررسی نهایی و صدور فرم</th>
+                          <th>ویرایش اطلاعات</th>
+
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+            </div>
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+
+      </div>
+
+      <!-- /.col (RIGHT) -->
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+
+
+<script>
+  $(function() {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "primary": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+
+{% endblock %}

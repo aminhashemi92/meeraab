@@ -1,0 +1,132 @@
+{% extends 'home/main.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{%block title%}|درباره‌ی ما
+{% endblock %}
+
+{% block content %}
+
+<!-- ============================================-->
+<!-- <blog heading> begin ============================-->
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{% static "images/background.png" %}');">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-end justify-content-center align-items-mobile-center">
+      <div class="col-md-9 ftco-animate mb-5 text-center">
+        <p class="breadcrumbs mb-3"><span class="mr-2"><a href="index.html">خانه <i class="fa fa-chevron-left"></i></a></span> <span> تماس با ما <i class="fa fa-chevron-left"> </i> </span></p>
+        <h2 class="mb-0 bread">تماس با ما </h2>
+      </div>
+    </div>
+  </div>
+  <svg viewBox="0 0 500 150" transform="scale(-1 -1)" preserveAspectRatio="none" style="height: 10%; width: 100%;  margin-top:-40px;" >
+    <path d="M0.00,92.27 C216.83,192.92 304.30,8.39 500.00,109.03 L500.00,0.00 L0.00,0.00 Z" style="stroke: none;fill: #f5f4f0 ;"></path>
+  </svg>
+</section>
+<!-- <blog heading> close ============================-->
+<!-- ============================================-->
+
+<section class="ftco-section bg-light" >
+  {% if messages %}
+  {% for message in messages %}
+  <div class="text-right alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+  {% endfor %}
+  {% endif %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-12">
+        <div class="wrapper px-md-4">
+          <div class="row mb-5">
+            <div class="col-md-3">
+              <div class="dbox w-100 text-center">
+                <div class="icon d-flex align-items-center justify-content-center">
+                  <span class="fa fa-map-marker"></span>
+                </div>
+                <div class="text">
+                  <p><span>
+                    آدرس ما:
+                  </span>
+                  {% include 'home/companyaddress.html' %}
+                 </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="dbox w-100 text-center">
+                <div class="icon d-flex align-items-center justify-content-center">
+                  <span class="fa fa-phone"></span>
+                </div>
+                <div class="text">
+                  <p><span>
+                    شماره تلفن:
+                  </span>
+                  <a href="tel://982191302592">
+                    {% include 'home/companyphone.html' %}
+                  </a>
+                </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="dbox w-100 text-center">
+                <div class="icon d-flex align-items-center justify-content-center">
+                  <span class="fa fa-paper-plane"></span>
+                </div>
+                <div class="text">
+                  <p><span>ایمیل:</span> <a href="mailto:info@meeraab.com">info@meeraab.com</a></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="dbox w-100 text-center">
+                <div class="icon d-flex align-items-center justify-content-center">
+                  <span class="fa fa-globe"></span>
+                </div>
+                <div class="text">
+                  <p><span>وبسایت</span> <a href="{% url 'home:homepage' %}">meeraab.com</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row no-gutters">
+            <div class="col-md-7">
+              <div class="contact-wrap w-100 p-md-5 p-4">
+                <h3 class="mb-4 text-right">با ما در ارتباط باشید.</h3>
+                <form  method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="row text-right" >
+                    <div class="col-12">
+                      {{ form.title|as_crispy_field }}
+                    </div>
+                    <div class="col-6">
+                      {{ form.firstname|as_crispy_field }}
+                    </div>
+                    <div class="col-6">
+                      {{ form.lastname|as_crispy_field }}
+                    </div>
+                    <div class="col-6">
+                      {{ form.email|as_crispy_field }}
+                    </div>
+                    <div class="col-6">
+                      {{ form.mphone|as_crispy_field }}
+                    </div>
+                    <div class="col-12">
+                      {{ form.description|as_crispy_field }}
+                    </div>
+
+                  </div>
+                  <button name="contact" class="btn btn-success">ارسال</button>
+                </form>
+              </div>
+            </div>
+            <div class="col-md-5 order-md-first d-flex align-items-stretch">
+
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1619.4594314333508!2d51.41761384886747!3d35.728213927752606!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e015007648ff3%3A0x6bc7deed816bb0e9!2sMirzaye%20Shirazi!5e0!3m2!1sen!2sus!4v1655821521024!5m2!1sen!2sus" width="600"  style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

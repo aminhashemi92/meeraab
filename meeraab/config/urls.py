@@ -14,8 +14,27 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('home.urls')),
+    path('blog/', include('blog.urls')),
+    path('register_login/', include('register_login.urls')),
+    path('dashboard/', include('dashboard.urls')),
+    path('well/', include('well.urls')),
+    path('transaction/', include('transaction.urls')),
+    path('trading/', include('trading.urls')),
+    path('license/', include('license.urls')),
+
+    path('summernote/', include('django_summernote.urls')),
+    path('comment/', include('comment.urls')),
+    path('ratings/', include('star_ratings.urls', namespace='ratings')),
 ]
+
+
+#در حالت دپلوی غیرفعال بشه
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

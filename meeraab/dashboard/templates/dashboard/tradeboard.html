@@ -1,0 +1,61 @@
+{% extends 'dashboard/base.html' %}
+
+{% load static %}
+ {% load humanize %}
+
+{%block title%}|داشبورد من
+{% endblock %}
+
+{% block sidebar %}
+{% include 'dashboard/sidebar.html' %}
+{% endblock %}
+
+{% block header %}
+داشبورد
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  {% for trade in tradelist %}
+    {% if trade.type == 'k' %}
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h4>{{trade.price|intcomma:False}} <small>ریال</small></h4>
+                <h6>&emsp;{{trade.amount|intcomma:False}} <small>مترمکعب</small></h6>
+                <span>چاه: {{trade.well}}</span>
+                <br>
+                <span>تاریخ انقضا: {{trade.jexpire}}</span>
+              </div>
+              <div class="icon">
+                <i class="fas fa-shopping-cart"></i>
+              </div>
+
+            </div>
+          </div>
+        {% else %}
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h4>{{trade.price|intcomma:False}} <small>ریال</small></h4>
+                <h6>&emsp;{{trade.amount|intcomma:False}} <small>مترمکعب</small></h6>
+                <span>چاه: {{trade.well}}</span>
+                <br>
+                <span>تاریخ انقضا: {{trade.jexpire}}</span>
+              </div>
+              <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+              </div>
+
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+          <!-- ./col -->
+        </div>
+
+{% endblock %}

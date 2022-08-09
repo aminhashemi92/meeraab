@@ -1,0 +1,38 @@
+<table id="example3" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>دلو</th>
+      <th>مانده</th>
+      <th>تاریخ</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for query in queryset %}
+<tr>
+  <td>{{query.bucket}}</td>
+  <td>{{query.credit}}</td>
+  <td>{{query.created}}</td>
+</tr>
+{% endfor %}
+</tbody>
+<tfoot>
+  <tr>
+    <th>دلو</th>
+    <th>مانده</th>
+    <th>تاریخ</th>
+  </tr>
+</tfoot>
+</table>
+<script>
+  $(function() {
+    $("#example3").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "primary": true,
+      "autoWidth": false,
+    });
+  });
+</script>

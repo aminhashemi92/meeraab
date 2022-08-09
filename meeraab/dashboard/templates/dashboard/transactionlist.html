@@ -1,0 +1,96 @@
+{% extends 'dashboard/base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{%block title%}|معامله‌ها
+{% endblock %}
+
+{% block sidebar %}
+  {% include 'dashboard/sidebar.html' %}
+{% endblock %}
+
+{% block header %}
+معامله‌ها
+{% endblock %}
+
+{% block content %}
+<div class="row">
+          <div class="col-12">
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title mb-0 float-left pt-1">لیست معامله‌ها</h3>
+
+                <div class="card-tools mb-0 float-right">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="جستجو">
+
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0 table-striped" style="height: 300px;">
+                <table class="table table-head-fixed">
+                  <thead>
+                    <tr class="small">
+                      <th>نوع</th>
+                      <th>از</th>
+                      <th>به</th>
+                      <th>مقدار</th>
+                      <th>تاریخ</th>
+                      <th>دلو</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for trans in transactions %}
+                    <tr>
+                      <td>{{trans.get_type_display}}</td>
+
+                      {% if trans.type == 'aa'%}
+                      <td>{{trans.from_abvand}}</td>
+                      <td>{{trans.to_abvand}}</td>
+                      {% endif %}
+
+                      {% if trans.type == 'ca'%}
+                      <td>{{trans.from_chahvand}}</td>
+                      <td>{{trans.to_abvand}}</td>
+                      {% endif %}
+
+                      {% if trans.type == 'ac'%}
+                      <td>{{trans.from_abvand}}</td>
+                      <td>{{trans.to_chahvand}}</td>
+                      {% endif %}
+
+
+                      {% if trans.type == 'wc'%}
+                      <td>{{trans.from_well}}</td>
+                      <td>{{trans.to_chahvand}}</td>
+                      {% endif %}
+
+
+                      {% if trans.type == 'cw'%}
+                      <td>{{trans.from_chahvand}}</td>
+                      <td>{{trans.to_well}}</td>
+                      {% endif %}
+
+                      <td>{{trans.amount}}</td>
+                      <td>{{trans.date}}</td>
+                      <td>{{trans.bucket}}</td>
+
+                    </tr>
+                    {% empty %}
+                    <p class="text-danger">محتوایی برای نمایش وجود ندارد</p>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>‍
+{% endblock %}

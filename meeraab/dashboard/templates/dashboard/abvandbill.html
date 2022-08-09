@@ -1,0 +1,103 @@
+{% extends 'dashboard/base.html' %}
+
+{% load static %}
+
+{%block title%}|داشبورد من
+{% endblock %}
+
+{% block sidebar %}
+{% include 'dashboard/sidebar.html' %}
+{% endblock %}
+
+{% block header %}
+صورت‌حساب‌های آب‌وندی
+{% endblock %}
+
+{% block moreheader %}
+
+{% endblock %}
+
+{% block content %}
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- AREA CHART -->
+        <div class="card card-info">
+          <div class="card-header align-items-center">
+            <div class="card-tools" style="float:left;">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+            </div>
+            <h3 class="card-title mb-0" style="float:right;">جدول صورت‌حساب‌های آب‌وندی</h3>
+          </div>
+          <div class="card-body">
+
+            <div class="form-group">
+              <label>انتخاب شماره حساب</label>
+              <select  id="account-select" class="form-control">
+                <option>--------</option>
+                {% for bill in chahbills %}
+                <option data-accountID="{{bill.accountID}}">{{bill.accountID}}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="" id="counterChart">
+              <div class="chart">
+                <div class="card">
+
+                  <!-- /.card-header -->
+                  <div class="card-body" id="trans-data">
+
+
+
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+            </div>
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+
+      </div>
+
+      <!-- /.col (RIGHT) -->
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+
+
+
+
+<script type="text/javascript">
+  $("#account-select").change(function() {
+    var accountID = $(this).val();
+    var url = "{% url 'transaction:ajax_load_abvandbill' %}"
+    $.ajax({ // initialize an AJAX request
+      url: url, // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+      data: {
+        'accountID': accountID // add the country id to the GET parameters
+      },
+      success: function(data) { // `data` is the return of the `load_cities` view function
+        $("#trans-data").html(data); // replace the contents of the city input with the data that came from the server
+
+      }
+    });
+  });
+</script>
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

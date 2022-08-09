@@ -1,0 +1,79 @@
+<table id="example1" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>نوع انتقال</th>
+      <th>دلو</th>
+      <th>انتقال/دریافت</th>
+      <th>از/به حساب</th>
+      <th>مقدار</th>
+      <th>تاریخ</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for trans in transactions %}
+<tr>
+  <td>{{trans.get_type_display}}</td>
+  <td>{{trans.bucket}}</td>
+
+  {% if trans.from_abvand.accountID == accountID %}
+  <td class="text-danger">انتقال</td>
+  {% endif %}
+
+  {% if trans.to_abvand.accountID == accountID %}
+  <td class="text-success">دریافت</td>
+  {% endif %}
+
+  {% if trans.from_abvand.accountID == accountID %}
+    {%if trans.to_chahvand %}
+      <td>{{trans.to_chahvand}}</td>
+    {% else %}
+      <td>{{trans.to_abvand}}</td>
+    {% endif %}
+  {% endif %}
+
+  {% if trans.to_abvand.accountID == accountID %}
+    {%if trans.from_chahvand %}
+      <td>{{trans.from_chahvand}}</td>
+    {% else %}
+      <td>{{trans.from_abvand}}</td>
+    {% endif %}
+  {% endif %}
+
+  {% if trans.from_abvand.accountID == accountID %}
+  <td class="text-danger">-{{trans.amount}}</td>
+  {% endif %}
+
+  {% if trans.to_abvand.accountID == accountID %}
+  <td class="text-success">+{{trans.amount}}</td>
+  {% endif %}
+
+  <td>{{trans.created}}</td>
+</tr>
+{% endfor %}
+</tbody>
+<tfoot>
+  <tr>
+    <th>نوع انتقال</th>
+    <th>دلو</th>
+    <th>انتقال/دریافت</th>
+    <th>از/به حساب</th>
+    <th>مقدار</th>
+    <th>تاریخ</th>
+  </tr>
+</tfoot>
+</table>
+
+
+<script>
+  $(function() {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "primary": true,
+      "autoWidth": false,
+    });
+  });
+</script>

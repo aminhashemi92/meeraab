@@ -1,0 +1,658 @@
+{% extends 'dashboard/base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+{%block title%}|داشبورد من
+{% endblock %}
+
+{% block sidebar %}
+{% include 'dashboard/sidebar.html' %}
+{% endblock %}
+
+{% block header %}
+صدورمجوز
+{% endblock %}
+
+{% block moreheader %}
+
+{% endblock %}
+
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+{% endfor %}
+{% endif %}
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+
+        <!-- AREA CHART -->
+        <div class="card card-gray">
+          <div class="card-header align-items-center">
+
+            <h3 class="card-title mb-0" style="float:right;">انتخاب چاه</h3>
+          </div>
+          <div class="card-body">
+
+            <div class="form-group">
+              <select id="well-select" class="form-control" onchange="location = this.value;">
+                <option>--------</option>
+                {% for well in wells %}
+                <option id="{{well.slug}}" value="{{well.slug}}">{{well.license}}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+{% if slug %}
+        <!-- AREA CHART -->
+        <div class="card card-gray collapsed-card">
+          <div class="card-header align-items-center">
+            <div class="card-tools" style="float:left;">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+              </button>
+
+            </div>
+            <h3 class="card-title mb-0" style="float:right;">مشخصات چاه</h3>
+          </div>
+          <div class="card-body">
+
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-6">
+                  <p class="lead">مشخصات چاه</p>
+
+                  <div class="table-responsive">
+                    <table class="table">
+                      <tbody>
+                        <tr>
+                          <th style="width:50%">مالک چاه</th>
+                          <td>{{current_well.owner}}</td>
+                        </tr>
+                        <tr>
+                          <th>شماره پروانه</th>
+                          <td>{{current_well.license}}</td>
+                        </tr>
+                        <tr>
+                        <tr>
+                          <th>عکس پروانه</th>
+                          <td>{{current_well.licensePic}}</td>
+                        </tr>
+                        <tr>
+                        <tr>
+                          <th>آبدهی مجاز</th>
+                          <td>{{current_well.permitedAbdehi}}</td>
+                        </tr>
+                        <tr>
+                          <th>ساعت کارکرد مجاز</th>
+                          <td>{{current_well.permitedWorkTime}}</td>
+                        </tr>
+                        <tr>
+                          <th>UTM</th>
+                          <td>{{current_well.UTM}}</td>
+                        </tr>
+                        <tr>
+                          <th>نوع بهرهبرداری</th>
+                          <td>{{current_well.useType}}</td>
+                        </tr>
+                        <tr>
+                          <th>اجازه‌ی برداشت سالیانه</th>
+                          <td>{{current_well.permitedUseInYear}}</td>
+                        </tr>
+                        <tr>
+                          <th>شارژ فعلی</th>
+                          <td>{{current_well.chargeInYear}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <p class="lead">مشخصات فیزیکی چاه</p>
+
+                  <div class="table-responsive">
+                    <table class="table">
+                      <tbody>
+                        <tr>
+                          <th style="width:50%">نوع کشت</th>
+                          <td>{{current_well.WellPhysicalInfo.farmingType}}</td>
+                        </tr>
+                        <tr>
+                          <th>مساحت</th>
+                          <td>{{current_well.WellPhysicalInfo.area}}</td>
+                        </tr>
+                        <tr>
+                          <th>عمق چاه</th>
+                          <td>{{current_well.WellPhysicalInfo.depth}}</td>
+                        </tr>
+                        <tr>
+                          <th>توان</th>
+                          <td>{{current_well.WellPhysicalInfo.power}}</td>
+                        </tr>
+                        <tr>
+                          <th>آبدهی</th>
+                          <td>{{current_well.WellPhysicalInfo.abdehi}}</td>
+                        </tr>
+                        <tr>
+                          <th>نوع پمپ</th>
+                          <td>{{current_well.WellPhysicalInfo.pomp}}</td>
+                        </tr>
+                        <tr>
+                          <th>BuyCap</th>
+                          <td>{{current_well.WellPhysicalInfo.buyCap}}</td>
+                        </tr>
+                        <tr>
+                          <th>SellCap</th>
+                          <td>{{current_well.WellPhysicalInfo.sellCap}}</td>
+                        </tr>
+                        <tr>
+                          <th>WellCap</th>
+                          <td>{{current_well.WellPhysicalInfo.wellCap}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+        <!-- AREA CHART -->
+      {% if current_well.ChargeAndCredit.status == 'c' %}
+      <div class="card card-info collapsed-card">
+      {% else %}
+      <div class="card card-info">
+      {% endif %}
+          <div class="card-header align-items-center">
+            <div class="card-tools" style="float:left;">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                {% if current_well.ChargeAndCredit.status == 'c' %}
+                <i class="fas fa-plus"></i>
+                {% else %}
+                <i class="fas fa-minus"></i>
+                {% endif %}
+              </button>
+
+            </div>
+            <h3 class="card-title mb-0" style="float:right;">
+              {% if current_well.ChargeAndCredit.status == 'c' %}
+              <img src='/static/admin/img/icon-yes.svg' alt='False' width="25">
+              {% elif current_well.ChargeAndCredit.status == 'd' %}
+              <img src='/static/admin/img/icon-no.svg' alt='False' width="25">
+              {% endif %}
+              وضعیت شارژ و اعتبار
+            </h3>
+          </div>
+          <div class="card-body">
+
+            <div class="form-group">
+
+              <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                  <p class="px-4 text-justify">
+                    <i class="fas fa-info-circle" style="color:orange;"></i>
+                    کارشناس محترم، لطفا تایید بفرمایید که طی 24 ساعت گذشته، بهره بردار فروشنده کارت خود را در کنتور قرار داده و آخرین اطلاعات شارژ بروزرسانی شده است. در صورت نیاز شارژ سالیانه، مصرف شده یا باقی مانده را ویرایش نمایید.
+                    <br>
+                    <br>
+                  </p>
+                  <div class="col-md-4">
+                    {{ form1.annual_charge|as_crispy_field }}
+                  </div>
+                  <div class="col-md-4">
+                    {{ form1.used_charge|as_crispy_field }}
+                  </div>
+                  <div class="col-md-4">
+                    {{ form1.remaining_charge|as_crispy_field }}
+                  </div>
+                  <div class="col-12">
+                    {{ form1.detail|as_crispy_field }}
+                  </div>
+                  <div class="col-12">
+                    {{ form1.status|as_crispy_field }}
+                  </div>
+                </div>
+                <button name="form1" class="btn btn-info" style="background-color:#5274ad; border-color:#5274ad;">ارسال</button>
+              </form>
+            </div>
+
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+
+        <!-- AREA CHART -->
+        {% if current_well.TechnicalCondition.status == 'c' %}
+        <div class="card card-info collapsed-card">
+        {% else %}
+        <div class="card card-info">
+        {% endif %}
+          <div class="card-header align-items-center">
+            <div class="card-tools" style="float:left;">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                {% if current_well.TechnicalCondition.status == 'c' %}
+                <i class="fas fa-plus"></i>
+                {% else %}
+                <i class="fas fa-minus"></i>
+                {% endif %}
+              </button>
+
+            </div>
+            <h3 class="card-title mb-0" style="float:right;">
+              {% if current_well.TechnicalCondition.status == 'c' %}
+              <img src='/static/admin/img/icon-yes.svg' alt='False' width="25">
+              {% elif current_well.TechnicalCondition.status == 'd' %}
+              <img src='/static/admin/img/icon-no.svg' alt='False' width="25">
+              {% endif %}
+              وضعیت فنی
+            </h3>
+          </div>
+          <div class="card-body">
+
+            <div class="form-group">
+              <form method="post" >
+                {% csrf_token %}
+                <div class="row">
+                  <p class="px-4 text-justify">
+                    <i class="fas fa-info-circle" style="color:orange;"></i>
+                    کارشناس محترم، لطفا تایید بفرمایید که پروانه بهره‌برداری حساب چاه، معتبر بوده و کنتور کالیبره می‌باشد. در صورت کالیبره نبودن کنتور به تشکل آب بران اطلاع داده خواهد شد و پس از دریافت گواهی صحت عملکرد کنتور مجددا به شما اطلاع داده
+                    خواهد شد.
+                    <br>
+                    <br>
+                  </p>
+
+                  <div class="col-md-6">
+                    {{ form2.operation_license|as_crispy_field }}
+                  </div>
+                  <div class="col-md-6">
+                    {{ form2.calibrated|as_crispy_field }}
+                  </div>
+                  <div class="col-12">
+                    {{ form2.document|as_crispy_field }}
+                  </div>
+                  <div class="col-md-12">
+                    {{ form2.detail|as_crispy_field }}
+                  </div>
+                  <div class="col-12">
+                    {{ form2.status|as_crispy_field }}
+                  </div>
+                </div>
+                <button name="form2" class="btn btn-info" style="background-color:#5274ad; border-color:#5274ad;">ارسال</button>
+              </form>
+            </div>
+
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+
+        <!-- AREA CHART -->
+        {% if current_well.ModifyName.status == 'c' %}
+        <div class="card card-info collapsed-card">
+        {% else %}
+        <div class="card card-info">
+        {% endif %}
+          <div class="card-header align-items-center">
+            <div class="card-tools" style="float:left;">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                {% if current_well.ModifyName.status == 'c' %}
+                <i class="fas fa-plus"></i>
+                {% else %}
+                <i class="fas fa-minus"></i>
+                {% endif %}
+              </button>
+
+            </div>
+            <h3 class="card-title mb-0" style="float:right;">
+              {% if current_well.ModifyName.status == 'c' %}
+              <img src='/static/admin/img/icon-yes.svg' alt='False' width="25">
+              {% elif current_well.ModifyName.status == 'd' %}
+              <img src='/static/admin/img/icon-no.svg' alt='False' width="25">
+              {% endif %}
+              اصلاح نام
+            </h3>
+          </div>
+          <div class="card-body">
+
+            <div class="form-group">
+              <form method="post" >
+                {% csrf_token %}
+                <div class="row">
+                  <p class="px-4 text-justify">
+                    <i class="fas fa-info-circle" style="color:orange;"></i>
+                    کارشناس محترم، در صورتی که مشکلی در باب مالکیت/بهره‌برداری نمایندگان و بهره‌برداران وجود داشته باشد (اعم از تغییر نام نماینده، فوت نماینده، انحصار وراث و ...)، درخواست اصلاح نام در پروانه بهره‌برداری انجام شده و پروانه بهره‌برداری
+                    اصلاح شده آپلود گردد.
+                    <br>
+                    در صورت عدم نیاز به تغییر پروانه بهره‌برداری، وضعیت را در حالت تاییده شده قرار دهید و بر روی ارسال کلیک کنید.
+                    <br>
+                    <br>
+                  </p>
+                  <div class="col-md-6">
+                    {{ form3.document|as_crispy_field }}
+                  </div>
+                  <div class="col-md-6">
+                    {{ form3.license|as_crispy_field }}
+                  </div>
+                  <div class="col-md-12">
+                    {{ form3.detail|as_crispy_field }}
+                  </div>
+                  <div class="col-12">
+                    {{ form3.status|as_crispy_field }}
+                  </div>
+                </div>
+                <button name="form3" class="btn btn-info" style="background-color:#5274ad; border-color:#5274ad;">ارسال</button>
+              </form>
+            </div>
+
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+
+        <!-- AREA CHART -->
+        {% if current_well.Commitment.status == 'c' %}
+        <div class="card card-info collapsed-card">
+        {% else %}
+        <div class="card card-info">
+        {% endif %}
+          <div class="card-header align-items-center">
+            <div class="card-tools" style="float:left;">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                {% if current_well.Commitment.status == 'c' %}
+                <i class="fas fa-plus"></i>
+                {% else %}
+                <i class="fas fa-minus"></i>
+                {% endif %}
+              </button>
+
+            </div>
+            <h3 class="card-title mb-0" style="float:right;">
+              {% if current_well.Commitment.status == 'c' %}
+              <img src='/static/admin/img/icon-yes.svg' alt='False' width="25">
+              {% elif current_well.Commitment.status == 'd' %}
+              <img src='/static/admin/img/icon-no.svg' alt='False' width="25">
+              {% endif %}
+              تعهد‌نامه نمایندگی فروش
+            </h3>
+          </div>
+          <div class="card-body">
+
+            <div class="form-group">
+                <div class="row">
+                  <p class="px-4 text-justify">
+                    <i class="fas fa-info-circle" style="color:orange;"></i>
+                    کارشناس محترم، لطفا فرم تعهد نامه نمایندگی در فروش را از لینک زیر دانلود کرده و پس از تکمیل آن توسط نماینده، اسکن آن را در قسمت مربوطه آپلود نمایید.
+                  </p>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <a class="px-3" href="#">
+                      <button class="btn btn-info" type="button" name="button">
+                        دانلود فرم تعهدنامه نمایندگی در فروش
+                      </button>
+                      <br>
+                      <br>
+                    </a>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="card" style="font-size:13px;">
+                      <div class="card-header ">
+                        <h5 class="mb-0 text-center">لیست بهره‌برداران</h5>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body p-0">
+                        <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th style="width: 10px">#</th>
+                              <th>نام و نام‌خانوادگی</th>
+                              <th>کد ملی</th>
+                              <th>تلفن</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for benef in current_well.Beneficiary.all %}
+                            <tr>
+                              <td>{{ forloop.counter }}</td>
+                              <td>{{benef.firstname}} {{benef.lastname}}</td>
+                              <td>
+                                {{benef.idNumber}}
+                              </td>
+                              <td>{{benef.phoneNumber}}</td>
+                            </tr>
+                            {% endfor %}
+
+                            <tr class="text-center">
+                              <td colspan="4">
+                              <button class="btn btn-info" type="button" name="button" data-toggle="modal" data-target="#modal-default">
+                                <i class="fas fa-plus"></i>
+                                افزودن بهره‌بردار</button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- /.card-body -->
+                    </div>
+                  </div>
+                </div>
+              <form method="post" >
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-md-12">
+                    {{ form4.document|as_crispy_field }}
+                  </div>
+                  <div class="col-md-12">
+                    {{ form4.detail|as_crispy_field }}
+                  </div>
+                  <div class="col-12">
+                    {{ form4.status|as_crispy_field }}
+                  </div>
+                </div>
+                <button name="form4" class="btn btn-info" style="background-color:#5274ad; border-color:#5274ad;">ارسال</button>
+              </form>
+            </div>
+
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+
+        <!-- AREA CHART -->
+        {% if current_well.Issuance.status == 'c' %}
+        <div class="card card-info collapsed-card">
+        {% else %}
+        <div class="card card-info">
+        {% endif %}
+          <div class="card-header align-items-center">
+            <div class="card-tools" style="float:left;">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                {% if current_well.Issuance.status == 'c' %}
+                <i class="fas fa-plus"></i>
+                {% else %}
+                <i class="fas fa-minus"></i>
+                {% endif %}
+              </button>
+
+            </div>
+            <h3 class="card-title mb-0" style="float:right;">
+              {% if current_well.Issuance.status == 'c' %}
+              <img src='/static/admin/img/icon-yes.svg' alt='False' width="25">
+              {% elif current_well.Issuance.status == 'd' %}
+              <img src='/static/admin/img/icon-no.svg' alt='False' width="25">
+              {% endif %}
+              بررسی نهایی و صدور فرم
+            </h3>
+          </div>
+          <div class="card-body">
+
+            <div class="form-group">
+              <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                  <p class="px-4 text-justify">
+                    <i class="fas fa-info-circle" style="color:orange;"></i>
+                    کارشناس محترم، لطفا تایید بفرمایید که طی 24 ساعت گذشته، بهره بردار فروشنده کارت خود را در کنتور قرار داده و آخرین اطلاعات شارژ بروزرسانی شده است. در صورت نیاز شارژ سالیانه، مصرف شده یا باقی مانده را ویرایش نمایید.
+                    <br>
+                    <br>
+                  </p>
+                  <div class="col-md-4">
+                    {{ form5.annual_charge|as_crispy_field }}
+                  </div>
+                  <div class="col-md-4">
+                    {{ form5.used_charge|as_crispy_field }}
+                  </div>
+                  <div class="col-md-4">
+                    {{ form5.remaining_charge|as_crispy_field }}
+                  </div>
+                  <div class="col-12">
+                    {{ form5.detail|as_crispy_field }}
+                  </div>
+                  <div class="col-12">
+                    {{ form5.status|as_crispy_field }}
+                  </div>
+                </div>
+                <button name="form5" class="btn btn-info" style="background-color:#5274ad; border-color:#5274ad;">ارسال</button>
+              </form>
+            </div>
+
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+      </div>
+
+      <!-- /.col (RIGHT) -->
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+
+{% endif %}
+
+</section>
+<!-- /.content -->
+
+{% if slug %}
+<!-- /.modal -->
+<div class="modal fade" id="modal-default">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">افزودن بهره‌بردار</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" enctype="multipart/form-data" id='benef-form'>
+        {% csrf_token %}
+        <div class="modal-body" id="formset-container">
+        {{ formset.management_form }}
+        {% for form in formset %}
+          <div class="row formrow">
+            <div class="col-md-3">
+              {{ form.firstname|as_crispy_field }}
+            </div>
+            <div class="col-md-3">
+              {{ form.lastname|as_crispy_field }}
+            </div>
+            <div class="col-md-3">
+              {{ form.idNumber|as_crispy_field }}
+            </div>
+            <div class="col-md-3">
+              {{ form.phoneNumber|as_crispy_field }}
+            </div>
+          </div>
+        {% endfor %}
+
+        <div id="empty-form" class="d-none row">
+            <div class="col-md-3">
+              {{ formset.empty_form.firstname|as_crispy_field }}
+            </div>
+            <div class="col-md-3">
+              {{ formset.empty_form.lastname|as_crispy_field }}
+            </div>
+            <div class="col-md-3">
+              {{ formset.empty_form.idNumber|as_crispy_field }}
+            </div>
+            <div class="col-md-3">
+              {{ formset.empty_form.phoneNumber|as_crispy_field }}
+            </div>
+        </div>
+
+
+
+        </div>
+
+        <div class="text-center">
+          <button id="add-more" type="button" name="button" class="btn btn-success">اضافه‌کردن بهره‌بردار</button>
+        </div>
+
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">انصراف</button>
+          <button form='benef-form' name='form6' class="btn btn-primary" style="background-color:#5274ad; border-color:#5274ad;">ارسال</button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+{% endif %}
+
+<script type="text/javascript">
+  const wellSelect = document.getElementById('well-select')
+  let slug = {{request.resolver_match.kwargs.slug}}
+  $(wellSelect).val(slug)
+</script>
+
+<script type="text/javascript">
+  const addMoreBtn = document.getElementById('add-more')
+  const totalNewForms = document.getElementById('id_form-TOTAL_FORMS')
+  addMoreBtn.addEventListener('click', add_new_form)
+
+  function add_new_form(args){
+    if(event){
+      event.preventDefault()
+    }
+    const currentForms = document.getElementsByClassName('formrow')
+    const currentFormsCount = currentForms.length // + 1
+    const formsetCopyTarget = document.getElementById('formset-container')
+    const copyEmptyFormEl = document.getElementById('empty-form').cloneNode(true)
+    copyEmptyFormEl.setAttribute('class', 'row formrow')
+    copyEmptyFormEl.setAttribute('id', `form-${currentFormsCount}`)
+    const regex = new RegExp('__prefix__','g')
+    copyEmptyFormEl.innerHTML=copyEmptyFormEl.innerHTML.replace(regex,currentFormsCount)
+    totalNewForms.setAttribute('value', currentFormsCount+1)
+    formsetCopyTarget.append(copyEmptyFormEl)
+  }
+
+</script>
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

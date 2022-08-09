@@ -1,0 +1,135 @@
+{% extends 'dashboard/base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{%block title%}|لیست داد‌وستد‌ها
+{% endblock %}
+
+{% block sidebar %}
+{% include 'dashboard/sidebar.html' %}
+{% endblock %}
+
+{% block header %}
+لیست داد‌وستد‌ها
+{% endblock %}
+
+{% block content %}
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- AREA CHART -->
+        <div class="card card-info">
+          <div class="card-header align-items-center">
+            <div class="card-tools" style="float:left;">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+            </div>
+            <h3 class="card-title mb-0" style="float:right;">جدول دادوستدها</h3>
+          </div>
+          <div class="card-body">
+
+
+            <div class="" id="counterChart">
+              <div class="chart">
+                <div class="card">
+
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th>نوع داد‌وستد</th>
+                          <th>ایجاد‌کننده</th>
+                          <th>چاه متصل</th>
+                          <th>مقدار</th>
+                          <th>قیمت (ریال)</th>
+                          <th>وضعیت</th>
+                          <th>تاریخ انتشار</th>
+                          <th>تاریخ انقضا</th>
+
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for trade in tradelist %}
+                        <tr>
+                          <td>{{trade.get_type_display}}</td>
+                          <td>{{trade.creator}}</td>
+                          <td>{{trade.well}}</td>
+                          <td>{{trade.amount}}</td>
+                          <td>{{trade.price}}</td>
+                          {% if trade.status %}
+                          <td>
+                            <span class="not-visible">True</span>
+                            <img src='/static/admin/img/icon-yes.svg' alt='True' width="25">
+                          </td>
+                          <!-- <td ><i class="icon fas fa-check alert alert-success"></i></td> -->
+                          {% else %}
+                          <td>
+                            <span class="not-visible">False</span>
+                            <img src='/static/admin/img/icon-no.svg' alt='False' width="25">
+                          </td>
+                          <!-- <td ><i class="icon fas fa-exclamation-triangle alert alert-danger"></i></td> -->
+                          {% endif %}
+                          <td>{{trade.jpublish}}</td>
+                          <td>{{trade.jexpire}}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th>نوع داد‌وستد</th>
+                          <th>ایجاد‌کننده</th>
+                          <th>چاه متصل</th>
+                          <th>مقدار</th>
+                          <th>قیمت (ریال)</th>
+                          <th>وضعیت</th>
+                          <th>تاریخ انتشار</th>
+                          <th>تاریخ انقضا</th>
+
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+            </div>
+
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+
+      </div>
+
+      <!-- /.col (RIGHT) -->
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+
+
+<script>
+  $(function() {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "primary": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+
+{% endblock %}

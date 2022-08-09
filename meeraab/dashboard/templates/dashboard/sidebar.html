@@ -1,0 +1,696 @@
+{% load static %}
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar elevation-4 sidebar-light-info">
+  <!-- Brand Logo -->
+
+  <a href="{% url 'home:homepage' %}" class="brand-link text-center" style="height:57px; padding-top:15px; padding-right:10px;">
+      <img src="{%static 'images/logo.png' %}" alt="Meeraab Logo" class="brand-image" style="opacity: .8;" >
+      <span class="brand-text font-weight-bold">میـــــــــــــــــــراب</span>
+      <!-- <span class="brand-text font-weight-light"> -->
+        <!-- <img src="{%static 'images/logotext.png' %}" alt="AdminLTE Logo" class="brand-image" style="opacity: .8"> -->
+        <!-- </span> -->
+    </a>
+
+  <!-- <a href="{% url 'home:homepage' %}" class="brand-link text-center" style="display:none;">
+    <img src="{%static '/home/images/whitelogo.png' %}" alt="AdminLTE Logo" style="opacity: .8; width:120px;">
+
+  </a>
+
+  <a href="{% url 'home:homepage' %}" class="brand-link text-center brand-link-mini">
+    <img src="{%static '/home/images/logologo.png' %}" alt="AdminLTE Logo" style="opacity: .8; width:30px;">
+
+  </a> -->
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image pt-2">
+        <img src="{{user.profile.pic.url}}" class="img-circle" alt="User Image" style="width:45px;">
+      </div>
+      <div class="info">
+        <a href="#" class="d-block">{%if user.profile.firstname%}{{user.profile.firstname}}{% endif %} {% if user.profile.lastname %}{{user.profile.lastname}} {% endif %}</a>
+        <a class="d-block" style=" font-size:0.8rem;">{{user.profile.role.first}}</a>
+      </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+             with font-awesome or any other icon font library -->
+        <li class="nav-item has-treeview">
+          <a href="{% url 'dashboard:dashboard' %}" class="nav-link
+          {% if request.resolver_match.url_name == 'dashboard' %}
+          active
+          {% endif %}">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+              داشبورد
+              <!-- <i class="right fas fa-angle-left"></i> -->
+            </p>
+          </a>
+          <!-- <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="./index.html" class="nav-link active">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Dashboard v1</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="./index2.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Dashboard v2</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="./index3.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Dashboard v3</p>
+              </a>
+            </li>
+          </ul> -->
+        </li>
+        <!-- <li class="nav-item">
+          <a href="pages/widgets.html" class="nav-link">
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              Widgets
+              <span class="right badge badge-danger">New</span>
+            </p>
+          </a>
+        </li> -->
+        <li class="nav-item has-treeview {% if request.resolver_match.url_name == 'defwell' or request.resolver_match.url_name == 'welllist' %}
+        menu-open
+        {% endif %}">
+          <a href="#" class="nav-link
+          {% if request.resolver_match.url_name == 'defwell' or request.resolver_match.url_name == 'welllist' %}
+          active
+          {% endif %}">
+            <i class="nav-icon fas fa-tree"></i>
+            <p>
+              چاه‌ها
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{% url 'dashboard:welllist' %}" class="nav-link
+              {% if request.resolver_match.url_name == 'welllist' %}
+              active
+              {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>لیست چاه‌ها</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'dashboard:defwell' %}" class="nav-link
+              {% if request.resolver_match.url_name == 'defwell' %}
+              active
+              {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>ایجاد چاه جدید</p>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+
+
+        <li class="nav-item has-treeview {% if request.resolver_match.url_name == 'license' or request.resolver_match.url_name == 'licensing'%}
+         menu-open
+        {% endif %}">
+          <a href="#" class="nav-link
+        {% if request.resolver_match.url_name == 'license'  or request.resolver_match.url_name == 'licensing'%}
+          active
+          {% endif %}">
+            <i class="nav-icon fas fa-copy"></i>
+            <p>
+              مجوزها
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{%url 'dashboard:license'%}" class="nav-link {% if request.resolver_match.url_name == 'license' %}
+              active
+              {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>لیست وضعیت مجوز چاه‌ها</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{%url 'dashboard:licensing'%}" class="nav-link {% if request.resolver_match.url_name == 'licensing' %}
+              active
+              {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>صدور مجوز</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+
+
+        <li class="nav-item has-treeview" style="display:None;">
+          <a href="#" class="nav-link
+          {% if request.resolver_match.url_name == 'plots' %}
+          active
+          {% endif %}">
+            <i class="nav-icon fas fa-chart-pie"></i>
+            <p>
+              نمودارها
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="pages/charts/chartjs.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>تجمیعی</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/charts/flot.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>فردی</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/charts/inline.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>سالیانه</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-tree"></i>
+            <p>
+              UI Elements
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="pages/UI/general.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>General</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/UI/icons.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Icons</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/UI/buttons.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Buttons</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/UI/sliders.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Sliders</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/UI/modals.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Modals & Alerts</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/UI/navbar.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Navbar & Tabs</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/UI/timeline.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Timeline</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/UI/ribbons.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Ribbons</p>
+              </a>
+            </li>
+          </ul>
+        </li> -->
+
+
+        <li class="nav-item has-treeview {% if request.resolver_match.url_name == 'chahbill' or request.resolver_match.url_name == 'chahvandbill' or request.resolver_match.url_name == 'abvandbill' %}
+         menu-open
+        {% endif %}">
+          <a href="#" class="nav-link
+        {% if request.resolver_match.url_name == 'chahbill' or request.resolver_match.url_name == 'chahvandbill' or request.resolver_match.url_name == 'abvandbill' %}
+          active
+          {% endif %}">
+            <i class="nav-icon fas fa-edit"></i>
+            <p>
+              گزارش‌ها
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{%url 'dashboard:chahbill'%}" class="nav-link {% if request.resolver_match.url_name == 'chahbill' %}
+              active
+              {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>حساب‌های چاه</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{%url 'dashboard:chahvandbill'%}" class="nav-link {% if request.resolver_match.url_name == 'chahvandbill' %}
+              active
+              {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>حساب‌های چاه‌وندی</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{%url 'dashboard:abvandbill'%}" class="nav-link {% if request.resolver_match.url_name == 'abvandbill' %}
+              active
+              {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>حساب‌های آب‌وندی</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+
+        <li class="nav-item has-treeview {% if request.resolver_match.url_name == 'abvandToAbvand' or request.resolver_match.url_name == 'abvandToChahvand' or request.resolver_match.url_name == 'chahvandToAbvand' or request.resolver_match.url_name == 'chahvandToChah' or request.resolver_match.url_name == 'chahToChahvand' or request.resolver_match.url_name == 'transactionlist'%}
+        menu-open
+        {% endif %}">
+          <a href="#" class="nav-link
+          {% if request.resolver_match.url_name == 'abvandToAbvand' or request.resolver_match.url_name == 'abvandToChahvand' or request.resolver_match.url_name == 'chahvandToAbvand' or request.resolver_match.url_name == 'chahvandToChah' or request.resolver_match.url_name == 'chahToChahvand' or request.resolver_match.url_name == 'transactionlist'%}
+          active
+          {% endif %}">
+            <i class="nav-icon fas fa-money-bill"></i>
+            <!-- <i class="fa-solid fa-money-bill-transfer"></i> -->
+            <p>
+              معامله‌ها
+              <i class="fas fa-angle-left right"></i>
+
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{% url 'dashboard:transactionlist'%}" class="nav-link
+              {% if request.resolver_match.url_name == 'transactionlist' %}
+              active
+              {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>لیست معامله‌ها</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'dashboard:abvandToAbvand'%}" class="nav-link
+              {% if request.resolver_match.url_name == 'abvandToAbvand' %}
+              active
+              {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>انتقال آب‌وندی به آب‌وندی</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'dashboard:abvandToChahvand'%}" class="nav-link
+              {% if request.resolver_match.url_name == 'abvandToChahvand' %}
+              active
+              {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>انتقال آب‌وندی به چاه‌وندی</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'dashboard:chahvandToAbvand'%}" class="nav-link
+              {% if request.resolver_match.url_name == 'chahvandToAbvand' %}
+              active
+              {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>انتقال چاه‌وندی به آب‌وندی</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'dashboard:chahvandToChah'%}" class="nav-link
+              {% if request.resolver_match.url_name == 'chahvandToChah' %}
+              active
+              {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>انتقال چاه‌وندی به چاه</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'dashboard:chahToChahvand'%}" class="nav-link
+              {% if request.resolver_match.url_name == 'chahToChahvand' %}
+              active
+              {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>انتقال چاه به چاه‌وندی</p>
+              </a>
+            </li>
+            <!-- <li class="nav-item">
+              <a href="pages/tables/data.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>DataTables</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/tables/jsgrid.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>jsGrid</p>
+              </a>
+            </li> -->
+          </ul>
+        </li>
+
+        <!-- <li class="nav-header">EXAMPLES</li> -->
+
+
+
+        <li class="nav-item has-treeview {% if request.resolver_match.url_name == 'tradelist' or request.resolver_match.url_name == 'addtrade' or request.resolver_match.url_name == 'tradeboard'%}
+        menu-open
+        {% endif %}">
+          <a href="#" class="nav-link
+          {% if request.resolver_match.url_name == 'tradelist' or request.resolver_match.url_name == 'addtrade' or request.resolver_match.url_name == 'tradeboard' %}
+          active
+          {% endif %}">
+            <i class="nav-icon fas fa-table"></i>
+            <p>
+              دادوستد
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{% url 'dashboard:tradelist' %}" class="nav-link
+              {% if request.resolver_match.url_name == 'tradelist' %}
+              active
+              {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>لیست داد‌وستد‌ها</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'dashboard:addtrade' %}" class="nav-link
+              {% if request.resolver_match.url_name == 'addtrade' %}
+              active
+              {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>ایجاد داد‌وستد</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'dashboard:tradeboard' %}" class="nav-link
+              {% if request.resolver_match.url_name == 'tradeboard' %}
+              active
+              {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>تابلوی داد‌وستد‌ها</p>
+              </a>
+            </li>
+
+
+          </ul>
+        </li>
+        <!--
+        <li class="nav-item">
+          <a href="pages/gallery.html" class="nav-link">
+            <i class="nav-icon far fa-image"></i>
+            <p>
+              Gallery
+            </p>
+          </a>
+        </li> -->
+        <li class="nav-item has-treeview" style="display:None;">
+          <a href="#" class="nav-link
+          {% if request.resolver_match.url_name == 'messages' %}
+          active
+          {% endif %}">
+            <i class="nav-icon far fa-envelope"></i>
+            <p>
+              پیام‌ها
+              <span class="right badge badge-danger">جدید</span>
+              <!-- <i class="fas fa-angle-left right"></i> -->
+            </p>
+          </a>
+          <!-- <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="pages/mailbox/mailbox.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Inbox</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/mailbox/compose.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Compose</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/mailbox/read-mail.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Read</p>
+              </a>
+            </li>
+          </ul> -->
+        </li>
+
+
+        <li class="nav-item has-treeview ">
+          <a href="#" class="nav-link
+          {% if request.resolver_match.url_name == 'profile' %}
+          active
+          {% endif %}">
+            <i class="nav-icon fas fa-user"></i>
+            <p>
+              پروفایل
+              <!-- <i class="fas fa-angle-left right"></i> -->
+            </p>
+          </a>
+          <!-- <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="pages/examples/invoice.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Invoice</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/profile.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Profile</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/e_commerce.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>E-commerce</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/projects.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Projects</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/project_add.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Project Add</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/project_edit.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Project Edit</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/project_detail.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Project Detail</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/contacts.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Contacts</p>
+              </a>
+            </li>
+          </ul> -->
+        </li>
+
+
+        <li class="nav-item has-treeview">
+          <a href="{% url 'register_login:logout' %}" class="nav-link">
+            <i class="fas fa-sign-out-alt"></i>
+            <p>
+              خروج از حساب کاربری
+              <!-- <i class="fas fa-angle-left right"></i> -->
+            </p>
+          </a>
+          <!-- <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="pages/examples/invoice.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Invoice</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/profile.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Profile</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/e_commerce.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>E-commerce</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/projects.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Projects</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/project_add.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Project Add</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/project_edit.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Project Edit</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/project_detail.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Project Detail</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/contacts.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Contacts</p>
+              </a>
+            </li>
+          </ul> -->
+        </li>
+
+        <!--
+        <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
+            <i class="nav-icon far fa-plus-square"></i>
+            <p>
+              Extras
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="pages/examples/login.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Login</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/register.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Register</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/lockscreen.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Lockscreen</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/legacy-user-menu.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Legacy User Menu</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/language-menu.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Language Menu</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/404.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Error 404</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/500.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Error 500</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="pages/examples/blank.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Blank Page</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="starter.html" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Starter Page</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-header">MISCELLANEOUS</li>
+        <li class="nav-item">
+          <a href="https://adminlte.io/docs/3.0" class="nav-link">
+            <i class="nav-icon fas fa-file"></i>
+            <p>Documentation</p>
+          </a>
+        </li>
+        <li class="nav-header">LABELS</li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon far fa-circle text-danger"></i>
+            <p class="text">Important</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon far fa-circle text-warning"></i>
+            <p>Warning</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon far fa-circle text-info"></i>
+            <p>Informational</p>
+          </a>
+        </li>
+      </ul> -->
+    </nav>
+    <!-- /.sidebar-menu -->
+
+
+  </div>
+  <!-- /.sidebar -->
+</aside>
+
+{% block script %}
+
+{% endblock %}
